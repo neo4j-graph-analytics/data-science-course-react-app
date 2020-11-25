@@ -10,6 +10,11 @@ RETURN apoc.coll.shuffle(photos)[..199] AS photos
 export const FETCH_PHOTO_RECOMMENDATIONS = 
 `
 UNWIND $selectedPhotos AS photoId
+// Recommend businesses that have the photo in the same partition
+// Hint: Use the partition property of the photo
+
 MATCH (p:Photo {id: photoId})<-[:HAS_PHOTO]-(b:Business)
 RETURN COLLECT(b {.*, photo: p.id}) AS recommendations
 `;
+
+// The solution for this exercise is available in  src/solutions/exercise4.js
